@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    .navbar {
+      background: linear-gradient(to right, #1f4037, #99f2c8);
+    }
+    .navbar-brand {
+      font-size: 24px;
+      font-weight: bold;
+      animation: flicker 2s infinite;
+    }
+    @keyframes flicker {
+      0%, 100% { color: #fff; text-shadow: 0 0 5px #fff, 0 0 10px #00ffe0; }
+      50% { color: #aaffff; text-shadow: 0 0 20px #00ffe0; }
+    }
+    .container {
+      max-width: 900px;
+      margin-top: 40px;
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    .info-box {
+      margin-bottom: 15px;
+      font-size: 16px;
+    }
+    .info-box span {
+      font-weight: bold;
+      color: #333;
+    }
+    footer {
+      background: #1f4037;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: auto;
+    }
+    .video-container {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .video-container iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    /* Hide all YouTube elements */
+    .video-container::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      pointer-events: none;
+      background: linear-gradient(to bottom, 
+                  rgba(255,255,255,0) 0%,
+                  rgba(255,255,255,0) 85%,
+                  rgba(255,255,255,1) 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔝 Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand text-white" href="#">Code Hub</a>
+      <div class="d-flex ms-auto">
+        <a href="courses.html" class="btn btn-outline-light me-2">🔙 Back to Courses</a>
+        <a href="idx.html" class="btn btn-light">🏠 Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 📚 Main Module -->
+  <div class="container">
+    <h2 id="moduleTitle" class="text-center mb-4">Learning Module</h2>
+
+    <div class="video-container">
+      <iframe id="videoPlayer" 
+              src="" 
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen>
+      </iframe>
+    </div>
+
+    <!-- 🔍 Extra Info -->
+    <div class="info-box"><span>👨‍🏫 Mentor:</span> <span id="mentorName">N/A</span></div>
+    <div class="info-box"><span>🕒 Duration:</span> <span id="videoDuration">N/A</span></div>
+    <div class="info-box"><span>🌐 Language:</span> <span id="videoLang">N/A</span></div>
+  </div>
+
+  <!-- 👣 Footer -->
+  <footer>
+    &copy; 2025 Code Hub | Student LMS Portal | Developed by Sachin
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- 📊 Script for Dynamic Content -->
+  <script>
+    const videoPlayer = document.getElementById("videoPlayer");
+    const moduleTitle = document.getElementById("moduleTitle");
+    const mentorName = document.getElementById("mentorName");
+    const videoDuration = document.getElementById("videoDuration");
+    const videoLang = document.getElementById("videoLang");
+
+    // Function to create completely clean YouTube URL
+    function getCleanYouTubeUrl(videoId) {
+      return `https://www.youtube-nocookie.com/embed/${videoId}?` +
+             `autoplay=1&rel=0&controls=1&showinfo=0&modestbranding=1&fs=0&disablekb=1` +
+             `&iv_load_policy=3&playsinline=1&cc_load_policy=0&widget_referrer=codehub`;
+    }
+
+    // 🌐 Load Course Info from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const course = urlParams.get('course');
+
+    // Predefined courses data
+    const coursesData = {
+      webdev: {
+        title: "Web Development",
+        videoId: "srBwRDiC3Pg",
+        mentor: "Sheryians Coding School",
+        duration: "1 hr 34 mins",
+        language: "Hindi"
+      },
+      datascience: {
+        title: "Data Science",
+        videoId: "Vfo5le26IhY",
+        mentor: "Apna College",
+        duration: "6 hrs 30 mins",
+        language: "Hindi"
+      },
+      cyber: {
+        title: "Cyber Security",
+        videoId: "v3iUx2SNspY",
+        mentor: "WsCube Tech",
+        duration: "2 hrs 30 mins",
+        language: "Hindi"
+      },
+      mobile: {
+        title: "Mobile App Development",
+        videoId: "FlBhpm9aRUg",
+        mentor: "WsCube Tech",
+        duration: "4 hrs 10 mins",
+        language: "Hindi"
+      },
+      ai: {
+        title: "Artificial Intelligence",
+        videoId: "y39OlGrVFD8",
+        mentor: "Great Learning",
+        duration: "6 hrs 10 mins",
+        language: "Hindi"
+      },
+      dbms: {
+        title: "DBMS",
+        videoId: "dl00fOOYLOM",
+        mentor: "Geeky Hub",
+        duration: "4 hrs 40 mins",
+        language: "Hindi"
+      }
+    };
+
+    // ⏳ Load Dynamic Content
+    if (course && coursesData[course]) {
+      const data = coursesData[course];
+      videoPlayer.src = getCleanYouTubeUrl(data.videoId);
+      moduleTitle.textContent = data.title;
+      mentorName.textContent = data.mentor;
+      videoDuration.textContent = data.duration;
+      videoLang.textContent = data.language;
+      document.title = data.title + " | Code Hub";
+      
+      // Additional protection against channel name appearing
+      setTimeout(() => {
+        try {
+          const iframeDoc = videoPlayer.contentDocument || videoPlayer.contentWindow.document;
+          const elements = iframeDoc.querySelectorAll('*');
+          elements.forEach(el => {
+            if (el.getAttribute('title') && el.getAttribute('title').includes('YouTube')) {
+              el.style.display = 'none';
+            }
+          });
+        } catch(e) {
+          // Cross-origin restrictions may prevent this
+        }
+      }, 3000);
+    } else {
+      // Default fallback
+      videoPlayer.src = getCleanYouTubeUrl("srBwRDiC3Pg");
+      moduleTitle.textContent = "Learning Module";
+      document.title = "Code Hub Learning";
+    }
+
+    // Periodic check to ensure no branding appears
+    setInterval(() => {
+      try {
+        const iframe = document.getElementById('videoPlayer');
+        if (iframe) {
+          // Reapply parameters if they get removed
+          const currentSrc = iframe.src;
+          if (!currentSrc.includes('modestbranding=1') || 
+              !currentSrc.includes('showinfo=0') ||
+              currentSrc.includes('channel')) {
+            const videoId = currentSrc.split('/').pop().split('?')[0];
+            iframe.src = getCleanYouTubeUrl(videoId);
+          }
+        }
+      } catch(e) {
+        console.log("Security restriction prevented modification");
+      }
+    }, 5000);
+  </script>
+</body>
+</html>
