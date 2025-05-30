@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Download Certificate - Code Hub</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: linear-gradient(to right, #f8f9fa, #e9ecef);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .certificate-card {
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      padding: 40px 30px;
+      background-color: #ffffff;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .center-container {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-top: 70px;
+      padding-bottom: 40px;
+    }
+
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: #007bff;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #0056b3;
+      color: white;
+    }
+
+    /* Typing Animation */
+    .typing-title {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #343a40;
+      margin-bottom: 20px;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: 3px solid #007bff;
+      width: 0;
+      animation: typing 3s steps(30, end) forwards, blink 0.6s infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    @keyframes blink {
+      0%, 100% { border-color: transparent; }
+      50% { border-color: #007bff; }
+    }
+
+    /* Footer Styling */
+    footer {
+      background-color: #343a40;
+      color: white;
+      padding: 15px 0;
+      text-align: center;
+    }
+
+    footer a {
+      color: #ffc107;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 576px) {
+      .certificate-card {
+        padding: 25px 20px;
+      }
+      .typing-title {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Back to Home Button -->
+<a href="studentportol.html" class="back-button">← Back</a>
+
+<!-- Centered Certificate Card -->
+<div class="center-container">
+  <div class="certificate-card">
+    <div class="typing-title">Download Your Certificate</div>
+    <p>Click below to download your course completion certificate.</p>
+
+    <!-- Dynamic Download Certificate Button -->
+    <a id="download-cert-btn" href="#" class="btn btn-primary mt-3">Download Certificate</a>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div>© 2025 Code Hub. All Rights Reserved.</div>
+  <div>
+    <a href="#">Privacy</a> |
+    <a href="#">Terms</a> |
+    <a href="#">Contact</a>
+  </div>
+</footer>
+
+<!-- Script to Set Username and Handle Redirect -->
+<script>
+  const username = localStorage.getItem("username");
+
+  if (!username) {
+    alert("You must be logged in to download your certificate.");
+    window.location.href = "login.html";
+  } else {
+    document.getElementById("download-cert-btn").href = `/generate-certificate?username=${encodeURIComponent(username)}`;
+  }
+</script>
+
+</body>
+</html>

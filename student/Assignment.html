@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Assignment Portal - Code Hub</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=1950&q=80') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+    .overlay {
+      background-color: rgba(255, 255, 255, 0.94);
+      min-height: 100vh;
+      padding: 3rem 1rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    h1 {
+      font-weight: 600;
+      color: #0d6efd;
+      animation: fadeIn 2s;
+    }
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      margin-top: 2rem;
+      animation: slideIn 1s ease-out;
+    }
+    .btn-custom {
+      background-color: #0d6efd;
+      color: white;
+    }
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 1.5rem 0;
+      background-color: #f8f9fa;
+      font-size: 0.95rem;
+      border-top: 1px solid #dee2e6;
+      margin-top: 3rem;
+    }
+    .countdown {
+      font-size: 1.25rem;
+      color: red;
+      animation: fadeIn 1s ease-in;
+    }
+    .assignment-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      animation: fadeIn 2s ease-in-out;
+    }
+    .assignment-btn {
+      background-color: #0d6efd;
+      color: white;
+      border: none;
+      transition: transform 0.2s;
+    }
+    .assignment-btn:hover {
+      transform: scale(1.1);
+    }
+    .submit-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .file-input {
+      display: none;
+    }
+    .file-label {
+      cursor: pointer;
+      background-color: #28a745;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    .green-tick {
+      color: green;
+      font-size: 1.2rem;
+      display: none;
+    }
+    .assignment-status {
+      font-size: 0.9rem;
+      color: green;
+      display: none;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(50px); }
+      to { transform: translateY(0); }
+    }
+    @media (max-width: 768px) {
+      .assignment-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .submit-section {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div class="container text-center">
+      <h1>📚 Assignment & Project Portal</h1>
+      <p class="text-muted">Download assignments, upload submissions, and view your projects.</p>
+
+      <div class="countdown" id="countdown"></div>
+
+      <!-- Assignments -->
+      <div class="card p-4 mb-4">
+        <h5 class="mb-3">Available Assignments</h5>
+        <ul class="list-group">
+          <!-- Loop through 5 assignments -->
+          <script>
+            const assignments = [
+              { id: 1, name: 'Assignment 1', file: 'assignment1.pdf' },
+              { id: 2, name: 'Assignment 2', file: 'assignment2.pdf' },
+              { id: 3, name: 'Assignment 3', file: 'assignment3.pdf' },
+              { id: 4, name: 'Assignment 4', file: 'assignment4.pdf' },
+              { id: 5, name: 'Assignment 5', file: 'assignment5.pdf' },
+            ];
+            document.write(assignments.map(a => `
+              <li class="list-group-item assignment-item">
+                <span>${a.name}</span>
+                <div class="submit-section">
+                  <a href="${a.file}" download class="btn btn-sm btn-outline-primary">Download</a>
+                  <label for="file${a.id}" class="file-label">Choose File</label>
+                  <input type="file" id="file${a.id}" class="file-input" onchange="showSubmitButton(${a.id})">
+                  <button class="btn btn-sm assignment-btn" id="submitBtn${a.id}" style="display:none;" onclick="submitAssignment(${a.id})">Submit</button>
+                  <span class="assignment-status" id="status${a.id}">Submitted</span>
+                  <span class="green-tick" id="tick${a.id}">✔</span>
+                </div>
+              </li>
+            `).join(''));
+          </script>
+        </ul>
+      </div>
+
+      <!-- Projects -->
+      <div class="card p-4 mb-4">
+        <h5 class="mb-3">Available Projects</h5>
+        <ul class="list-group">
+          <li class="list-group-item assignment-item">
+            <span>Project 1</span>
+            <div class="submit-section">
+              <a href="project1.pdf" download class="btn btn-sm btn-outline-primary">Download</a>
+              <label for="projFile1" class="file-label">Choose File</label>
+              <input type="file" id="projFile1" class="file-input" onchange="showProjectSubmitButton(1)">
+              <button class="btn btn-sm assignment-btn" id="submitProjBtn1" style="display:none;" onclick="submitProject(1)">Submit</button>
+              <span class="assignment-status" id="projStatus1">Submitted</span>
+              <span class="green-tick" id="projTick1">✔</span>
+            </div>
+          </li>
+          <li class="list-group-item assignment-item">
+            <span>Project 2</span>
+            <div class="submit-section">
+              <a href="project2.pdf" download class="btn btn-sm btn-outline-primary">Download</a>
+              <label for="projFile2" class="file-label">Choose File</label>
+              <input type="file" id="projFile2" class="file-input" onchange="showProjectSubmitButton(2)">
+              <button class="btn btn-sm assignment-btn" id="submitProjBtn2" style="display:none;" onclick="submitProject(2)">Submit</button>
+              <span class="assignment-status" id="projStatus2">Submitted</span>
+              <span class="green-tick" id="projTick2">✔</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div><strong>Code Hub</strong> © 2025. All rights reserved.</div>
+    <div>For any queries, mail us at: <a href="mailto:support@codehub.com">support@codehub.com</a></div>
+  </footer>
+
+  <script>
+    function showSubmitButton(num) {
+      document.getElementById("submitBtn" + num).style.display = "inline-block";
+    }
+
+    function submitAssignment(num) {
+      document.getElementById("submitBtn" + num).disabled = true;
+      document.getElementById("submitBtn" + num).innerText = "Submitted";
+      document.getElementById("status" + num).style.display = "inline";
+      document.getElementById("tick" + num).style.display = "inline";
+    }
+
+    function showProjectSubmitButton(num) {
+      document.getElementById("submitProjBtn" + num).style.display = "inline-block";
+    }
+
+    function submitProject(num) {
+      document.getElementById("submitProjBtn" + num).disabled = true;
+      document.getElementById("submitProjBtn" + num).innerText = "Submitted";
+      document.getElementById("projStatus" + num).style.display = "inline";
+      document.getElementById("projTick" + num).style.display = "inline";
+    }
+
+    function startCountdown() {
+      const deadline = new Date('2025-05-15T23:59:59').getTime(); // update deadline as needed
+      const countdownElem = document.getElementById('countdown');
+      const interval = setInterval(function () {
+        const now = new Date().getTime();
+        const distance = deadline - now;
+        if (distance <= 0) {
+          clearInterval(interval);
+          countdownElem.innerHTML = "🕛 Deadline has passed!";
+        } else {
+          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          countdownElem.innerHTML = `⏳ Time Left: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+        }
+      }, 1000);
+    }
+
+    startCountdown();
+  </script>
+</body>
+</html>
